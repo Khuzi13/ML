@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- ========== CHANGE PROJECT TITLE HERE ========== -->
+  <title>ML Project</title>
+  
+  <link rel="stylesheet" href="/static/css/style.css" />
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  
+  <!-- Chart.js for Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" id="preloader" role="status" aria-label="Loading">
+    <div class="mks-loader" aria-hidden="true">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated logo">
+            <defs>
+                <linearGradient id="mks-grad" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="10%" stop-color="#5a4bd1" /> <!-- var(--primary-dark) -->
+                    <stop offset="50%" stop-color="#6c5ce7" /> <!-- var(--primary) -->
+                    <stop offset="85%" stop-color="#a29bfe" /> <!-- var(--primary-light) -->
+                </linearGradient>
+            </defs>
+
+            <!-- Circular ring -->
+            <circle cx="100" cy="100" r="85" stroke="url(#mks-grad)" class="ring" />
+
+            <!-- Text -->
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="54" font-weight="700" font-family="var(--font)" fill="url(#mks-grad)" class="fade-in">MKS</text>
+
+            <!-- Bars group -->
+            <g class="bars-group fade-in" style="animation-delay:1.5s" transform="translate(100,135)">
+                <path class="bar" fill="url(#mks-grad)"
+                      d="M0,44 v10.5 a4.5,4.5 0 0 1 4.5,4.5 a4.5,4.5 0 0 1 4.5,-4.5 v-20.5 h-9 z" />
+                <path class="bar" fill="url(#mks-grad)"
+                      d="M14,32 v20.5 a4.5,4.5 0 0 1 4.5,4.5 a4.5,4.5 0 0 1 4.5,-4.5 v-33.5 h-9 z" />
+                <path class="bar" fill="url(#mks-grad)"
+                      d="M28,16 v30.5 a4.5,4.5 0 0 1 4.5,4.5 a4.5,4.5 0 0 1 4.5,-4.5 v-20.5 h-9 z" />
+                <path class="bar" fill="url(#mks-grad)"
+                      d="M42,1 v40.5 a4.5,4.5 0 0 1 4.5,4.5 a4.5,4.5 0 0 1 4.5,-4.5 v-32.5 h-9 z" />
+                <polyline class="line-path" points="4.5,25 18.5,10 32.5,17 46.5,-1" fill="none"
+                          stroke="url(#mks-grad)" stroke-width="3" />
+                <circle class="dot d1" cx="4.5" cy="25" r="4" fill="url(#mks-grad)" />
+                <circle class="dot d2" cx="18.5" cy="10" r="4" fill="url(#mks-grad)" />
+                <circle class="dot d3" cx="32.5" cy="17" r="4" fill="url(#mks-grad)" />
+                <circle class="dot d4" cx="46.5" cy="-1" r="4" fill="url(#mks-grad)" />
+            </g>
+        </svg>
+    </div>
+    <span class="sr-only">Loading…</span>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fas fa-brain"></i>
+      <span id="nav-title">ML Project</span>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/home#predict">Predict</a>
+      <a href="/home#visualize">Visualize</a>
+      <a href="/about-us/">About Model</a>
+    </div>
+    <button class="nav-toggle" id="navToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>

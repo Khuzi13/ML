@@ -1,0 +1,318 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+  <!-- ============ HERO SECTION ============ -->
+  <section class="hero" id="home">
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+      <div class="hero-badge" id="hero-badge">Supervised Learning</div>
+      <h1 id="hero-title">House Price Predictor</h1>
+      <p id="hero-description">
+        Predict house prices based on features like area, bedrooms, location etc.
+      </p>
+      <div class="hero-buttons">
+        <a href="#predict" class="btn btn-primary">
+          <i class="fas fa-rocket"></i> Start Predicting
+        </a>
+        <a href="about.html" class="btn btn-secondary">
+          <i class="fas fa-info-circle"></i> Learn More
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="stat-accuracy">94.5%</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="stat-samples">15K+</span>
+          <span class="stat-label">Training Samples</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="stat-model">Random Forest</span>
+          <span class="stat-label">Model</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREDICTION SECTION ============ -->
+  <section class="section" id="predict">
+    <div class="container">
+      <div class="section-header">
+        <h2><i class="fas fa-magic"></i> Make Prediction</h2>
+        <p>Fill in the features below and click predict</p>
+      </div>
+
+      <div class="predict-wrapper">
+        <!-- INPUT FORM - Generated Dynamically by JS -->
+        <div class="card input-card">
+          <div class="card-header">
+            <i class="fas fa-edit"></i> Input Features
+          </div>
+          <form id="prediction-form">
+            <!-- Form Fields Template -->
+            <div id="form-fields">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="feature1">Feature 1 <span class="required">*</span></label>
+                  <input type="number" class="form-control" id="feature1" placeholder="e.g. 1500" required>
+                  <div class="form-hint">Hint for feature 1</div>
+                </div>
+                <div class="form-group">
+                  <label for="feature2">Feature 2</label>
+                  <select class="form-control" id="feature2">
+                    <option value="">Select...</option>
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block" id="predict-btn">
+              <i class="fas fa-cogs"></i> 
+              <span>Predict</span>
+              <div class="btn-loader" id="btn-loader"></div>
+            </button>
+          </form>
+          
+          <!-- Quick Fill Buttons -->
+          <div class="quick-fill">
+            <p>Quick Fill:</p>
+            <div id="quick-fill-buttons">
+              <button type="button" class="quick-fill-btn">Example 1</button>
+              <button type="button" class="quick-fill-btn">Example 2</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div class="card result-card" id="result-card">
+          <div class="card-header">
+            <i class="fas fa-poll"></i> Prediction Result
+          </div>
+          
+          <!-- Before Prediction -->
+          <div class="result-placeholder" id="result-placeholder">
+            <i class="fas fa-arrow-left"></i>
+            <p>Fill the form and click Predict</p>
+          </div>
+
+          <!-- After Prediction -->
+          <div class="result-content hidden" id="result-content">
+            <!-- Main Result -->
+            <div class="result-main">
+              <div class="result-icon" id="result-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="result-value" id="result-value">--</div>
+              <div class="result-label" id="result-label">Prediction</div>
+            </div>
+
+            <!-- Confidence / Probability -->
+            <div class="confidence-section" id="confidence-section">
+              <h4>Confidence</h4>
+              <div class="confidence-bar-wrapper">
+                <div class="confidence-bar">
+                  <div class="confidence-fill" id="confidence-fill"></div>
+                </div>
+                <span class="confidence-text" id="confidence-text">0%</span>
+              </div>
+            </div>
+
+            <!-- Class Probabilities (for classification) -->
+            <div class="probabilities-section hidden" id="probabilities-section">
+              <h4>Class Probabilities</h4>
+              <div id="probabilities-list"></div>
+            </div>
+
+            <!-- Regression Extras (for regression) -->
+            <div class="regression-extras hidden" id="regression-extras">
+              <div class="extra-item">
+                <span>Range</span>
+                <span id="pred-range">--</span>
+              </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="result-meta">
+              <div class="meta-item">
+                <i class="fas fa-clock"></i>
+                <span id="response-time">0ms</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-microchip"></i>
+                <span id="model-used">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORY TABLE -->
+      <div class="card history-card">
+        <div class="card-header">
+          <i class="fas fa-history"></i> Prediction History
+          <button class="btn btn-small" id="clear-history">
+            <i class="fas fa-trash"></i> Clear
+          </button>
+        </div>
+        <div class="table-wrapper">
+          <table id="history-table">
+            <thead>
+              <tr id="history-header">
+                <th>#</th>
+                <th>Feature 1</th>
+                <th>Feature 2</th>
+                <th>Prediction</th>
+                <th>Confidence</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <tr class="empty-row">
+                <td colspan="100%">No predictions yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VISUALIZATION SECTION ============ -->
+  <section class="section section-alt" id="visualize">
+    <div class="container">
+      <div class="section-header">
+        <h2><i class="fas fa-chart-bar"></i> Visualizations</h2>
+        <p>Explore model performance and data insights</p>
+      </div>
+
+      <div class="charts-grid">
+        <!-- Chart 1 -->
+        <div class="card chart-card">
+          <div class="card-header" id="chart1-title"><i class="fas fa-chart-bar"></i> Feature Importance</div>
+          <div class="chart-container">
+            <canvas id="chart1"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2 -->
+        <div class="card chart-card">
+          <div class="card-header" id="chart2-title"><i class="fas fa-trophy"></i> Model Comparison</div>
+          <div class="chart-container">
+            <canvas id="chart2"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3 -->
+        <div class="card chart-card">
+          <div class="card-header" id="chart3-title"><i class="fas fa-chart-pie"></i> Price Distribution</div>
+          <div class="chart-container">
+            <canvas id="chart3"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4 -->
+        <div class="card chart-card">
+          <div class="card-header" id="chart4-title"><i class="fas fa-chart-line"></i> Prediction History</div>
+          <div class="chart-container">
+            <canvas id="chart4"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT / MODEL INFO SECTION ============ -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <h2><i class="fas fa-info-circle"></i> About This Model</h2>
+        <p>Technical details and methodology</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="card info-card">
+          <div class="info-icon"><i class="fas fa-database"></i></div>
+          <h3>Dataset</h3>
+          <p id="about-dataset">Information about the dataset used.</p>
+        </div>
+        <div class="card info-card">
+          <div class="info-icon"><i class="fas fa-project-diagram"></i></div>
+          <h3>Algorithm</h3>
+          <p id="about-algorithm">Information about the ML algorithm.</p>
+        </div>
+        <div class="card info-card">
+          <div class="info-icon"><i class="fas fa-bullseye"></i></div>
+          <h3>Performance</h3>
+          <p id="about-performance">Model metrics and performance.</p>
+        </div>
+        <div class="card info-card">
+          <div class="info-icon"><i class="fas fa-tools"></i></div>
+          <h3>Tech Stack</h3>
+          <p id="about-tech">Technologies used in this project.</p>
+        </div>
+      </div>
+
+      <!-- Features List -->
+      <div class="card features-detail-card">
+        <div class="card-header">
+          <i class="fas fa-list"></i> Feature Details
+        </div>
+        <div class="features-table-wrapper">
+          <table id="features-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Feature</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Range / Options</th>
+              </tr>
+            </thead>
+            <tbody id="features-table-body">
+              <tr>
+                <td>1</td>
+                <td><strong>Feature 1</strong></td>
+                <td>Number</td>
+                <td>Description of Feature 1</td>
+                <td>0 - 1000</td> 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BATCH PREDICTION SECTION ============ -->
+  <section class="section section-alt" id="batch">
+    <div class="container">
+      <div class="section-header">
+        <h2><i class="fas fa-file-csv"></i> Batch Prediction</h2>
+        <p>Upload CSV file for multiple predictions</p>
+      </div>
+      <div class="card batch-card">
+        <div class="upload-zone" id="upload-zone">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Drag & Drop CSV file here</p>
+          <span>or</span>
+          <label class="btn btn-secondary">
+            <i class="fas fa-folder-open"></i> Browse File
+            <input type="file" id="csv-file" accept=".csv" hidden />
+          </label>
+        </div>
+        <div class="batch-result hidden" id="batch-result">
+          <p><i class="fas fa-check-circle"></i> <span id="batch-count">0</span> predictions completed</p>
+          <button class="btn btn-primary" id="download-results">
+            <i class="fas fa-download"></i> Download Results
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

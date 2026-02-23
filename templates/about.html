@@ -1,0 +1,91 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<!-- ============ ABOUT MODEL SECTION ============ -->
+  <section class="about-hero">
+    <div class="hero-particles" id="particles"></div>
+    <div class="about-model-section">
+      <div class="model-header">
+        <i class="fas fa-project-diagram model-icon"></i>
+        <h2>Algorithm Details</h2>
+        <p>A deep dive into the Random Forest Regressor powering our predictions.</p>
+    </div>
+
+    <div class="content-card">
+        <h3><i class="fas fa-tree"></i> What is Random Forest?</h3>
+        <p>
+            Random Forest is an ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean prediction (regression) of the individual trees.
+        </p>
+        <p>
+            In the context of our <strong>House Price Predictor</strong>, we use the <code>RandomForestRegressor</code>. It combines the predictions of many different decision trees to produce a more accurate and stable prediction of housing prices based on features like Area, Bedrooms, Bathrooms, Location, and Age.
+        </p>
+    </div>
+
+    <div class="content-card">
+        <h3><i class="fas fa-cogs"></i> Model Hyperparameters</h3>
+        <p>After extensive hyperparameter tuning using Grid Search Cross Validation, we settled on the following optimal configuration for our model:</p>
+        <ul>
+            <li><strong>n_estimators:</strong> 200 (Number of trees in the forest)</li>
+            <li><strong>max_depth:</strong> 15 (Maximum depth of each tree to prevent overfitting)</li>
+            <li><strong>min_samples_split:</strong> 5 (Minimum number of samples required to split an internal node)</li>
+            <li><strong>min_samples_leaf:</strong> 2 (Minimum number of samples required to be at a leaf node)</li>
+        </ul>
+        <p>This configuration strikes a balance between capturing the complex non-linear relationships in the housing data and avoiding overfitting algorithms memory of the training data.</p>
+    </div>
+
+    <div class="content-card">
+        <h3><i class="fas fa-chart-line"></i> Performance Metrics</h3>
+        <p>The model was trained on a comprehensive dataset of 15,000+ housing records across various regions. Performance on the unseen test set yielded:</p>
+        <ul>
+            <li><strong>R² Score (Coefficient of Determination):</strong> 0.945 — This means the model explains 94.5% of the variance in house prices.</li>
+            <li><strong>Mean Absolute Error (MAE):</strong> 2.3 Lakhs — On average, our predictions are off by +/- 2.3 Lakhs.</li>
+            <li><strong>Root Mean Squared Error (RMSE):</strong> 4.1 Lakhs.</li>
+        </ul>
+    </div>
+
+    <div class="content-card">
+        <h3><i class="fas fa-code"></i> Implementation Detail</h3>
+        <p>Here is a simplified snippet of how the model is instantiated and trained using Python's <code>scikit-learn</code> library:</p>
+        <div class="code-wrapper">
+          <button class="copy-btn" id="copyBtn" onclick="copyCode()" title="Copy Code">
+            <i class="far fa-copy"></i>
+          </button>
+          <pre class="code-block" id="codeSnippet"><code>
+from sklearn.ensemble import RandomForestRegressor
+
+# Initialize the model with optimized parameters
+rf_model = RandomForestRegressor(
+    n_estimators=200, 
+    max_depth=15, 
+    random_state=42
+)
+
+# Train the model
+rf_model.fit(X_train, y_train)
+
+# Make predictions
+predictions = rf_model.predict(X_test)
+          </code></pre>
+        </div>
+        
+        <script>
+          function copyCode() {
+              const codeText = document.getElementById('codeSnippet').innerText;
+              navigator.clipboard.writeText(codeText).then(() => {
+                  const btn = document.getElementById('copyBtn');
+                  btn.innerHTML = '<i class="fas fa-check"></i>';
+                  setTimeout(() => {
+                      btn.innerHTML = '<i class="far fa-copy"></i>';
+                  }, 2000);
+              });
+          }
+        </script>
+    </div>
+    </div>
+  </section>
+
+{% endblock %}
